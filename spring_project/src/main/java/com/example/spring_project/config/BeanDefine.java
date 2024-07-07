@@ -5,8 +5,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-// import com.github.dozermapper.core.Mapper;
-// import com.github.dozermapper.core.DozerBeanMapperBuilder;
+import com.github.dozermapper.core.Mapper;
+import com.github.dozermapper.core.DozerBeanMapperBuilder;
 
 @Configuration
 public class BeanDefine {
@@ -16,9 +16,9 @@ public class BeanDefine {
         return new BCryptPasswordEncoder();
     }
 
-    // @Bean
-	// Mapper mapper() {
-	// 	return DozerBeanMapperBuilder.buildDefault();
-	// }
+    @Bean
+	Mapper mapper() {
+		return DozerBeanMapperBuilder.buildDefault();
+	}
     
 }

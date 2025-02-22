@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>シェアマッチョ</title>
+	<link rel="icon" th:href="@{/img/favicon.png}">
+</head>
+
+<body>
+    <h2>新しいスポットの登録</h2>
+
+    <form id="spotForm" th:action="@{/api/locations}" method="POST">
+        <label for="name">場所の名前:</label>
+        <input type="text" id="name" name="name">
+        <br>
+        <label for="address">住所:</label>
+        <input type="text" id="address" name="address">
+        <br>
+        <button type="submit">登録</button>
+    </form>
+
+    <p id="responseMessage"></p>
+
+    <script>
+        document.getElementById("spotForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById("name").value;
+            const address = document.getElementById("address").value;
+
+            const requestData = {
+                name: name,
+                address: address
+            };
+
+            fetch("/api/locations", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(requestData)
+            })
+            .then(response => {
+				if (!response.ok) {
+					return response.json().then(err => {
+					throw new Error(err.error || 'エラーが発生しました');
+					});
+				}
+				return response.json();
+				})
+			.then(data => {
+				console.log('Success:', data);
+				window.location.href = '/gyms';
+				document.getElementById("responseMessage").innerText = "登録成功！";
+			})
+			.catch(error => {
+				console.error('Error:', error);
+				document.getElementById("responseMessage").innerText = "エラー: " + error.message;
+			});
+		});
+    </script>
+	
+</body>
+</html>

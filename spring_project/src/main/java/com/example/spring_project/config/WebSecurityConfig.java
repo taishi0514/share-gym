@@ -35,6 +35,7 @@ public class WebSecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
 
         http
+            .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(
                 authorize -> authorize.requestMatchers(UrlConst.NO_AUTHENTICATION).permitAll()
                     .anyRequest().authenticated())
@@ -50,16 +51,6 @@ public class WebSecurityConfig {
 
 
     }
-
-    // @Bean
-    // public UserDetailsService users(){
-    //     UserDetails guest = User.builder()
-    //                         .username("guest")
-    //                         .password("password")
-    //                         .roles("GUEST")
-    //                         .build();
-    //     return new InMemoryUserDetailsManager(guest);
-    // }
 
     @Bean
 	AuthenticationProvider daoAuthenticationProvider() {

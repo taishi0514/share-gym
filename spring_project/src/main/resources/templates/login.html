@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+ 	<title>ログイン画面</title>
+	<link th:href="@{/css/login.css}" rel="stylesheet">
+	
+</head>
+
+<body>
+	<header>
+		<h1>
+			<a th:href="@{/login}">Share Gym</a>
+		</h1>
+	</header>
+		<h2>ログイン</h2>
+
+	<!-- <div role="alert" th:if="${errorMsg} != null"> -->
+		<div class="errorMsg"  th:if="${errorMsg} != null">
+			<span th:text="${errorMsg}"></span>
+		</div>
+	<!-- </div> -->
+
+	<div class="main">
+	<p class="reset">パスワードをお忘れの方は<a th:href="@{/new}">こちら</a></p>
+
+	<form th:action="@{/login}" method="post" th:object="${loginForm}">
+		<p class="email">メールアドレス</p>
+		<input type="email" id="type_email" th:field="*{email}" placeholder="   例）taro.yamada@example.com"/>
+		<p class="password">パスワード </p>
+		<input type="password" id="type_password" th:field="*{password}" placeholder="   パスワードを入力してください。"/><br>
+		<input type="submit" id="sent" value="ログイン">
+	</form>
+
+    <a class="signup" th:href="@{/signup}">▼会員登録はこちら</a>
+	</div>
+</body>
+</html>

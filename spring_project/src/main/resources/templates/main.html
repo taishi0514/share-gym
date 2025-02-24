@@ -1,0 +1,71 @@
+<!-- <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LogRefresh Pro</title>
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+</head>
+<body>
+        <header>
+            <h1>
+                <a href="/main">LogRefresh Pro</a>
+            </h1>
+
+            <button class="hamburger-menu" id="js-hamburger-menu">
+                <span class="hamburger-menu__bar"></span>
+                <span class="hamburger-menu__bar"></span>
+                <span class="hamburger-menu__bar"></span>
+            </button>
+            <nav class="navigation">
+            <ul class="navigation__list">
+                <li class="navigation__list-item"><a th:href="@{/mypage}" class="navigation__link">マイページ</a></li>
+                <li class="navigation__list-item"><a href="https://docs.google.com/forms/d/e/1FAIpQLSeTKIWMDJng8OOplEbJ1ymYFvKVfhjNGq8DzKv4eCyuabmGhw/viewform?usp=sf_link" target="_blank" class="navigation__link">お問い合わせ</a></li>
+                <li class="navigation__list-item">
+                    <form th:action="@{/logout}" method="post">
+                        <input type="submit" class="btn" value="ログアウト" />
+                    </form>
+                </li>
+
+            </ul>
+            </nav>
+
+        </header>
+        
+        <main>
+            <p><a th:href="@{/post}" class="plus">記録</a></p>
+
+
+
+
+            <div class="items">
+                <ul class="items__list">
+                    <li class="list__item">
+                        <form th:action="@{/main/{bookId}(bookId=${book.bookId})}" th:each="book : ${userBooks}" method="get">
+                            <button type="submit" th:text="${book.bookName}"></button>
+                        </form>
+                    </li>
+                </ul>
+
+
+
+            </div>
+
+           
+        </main>
+        
+
+</body>
+
+
+<script>
+    $(function () {
+    $('#js-hamburger-menu, .navigation__link').on('click', function () {
+        $('.navigation').slideToggle(500)
+        $('.hamburger-menu').toggleClass('hamburger-menu--open')
+    });
+    });
+</script>
+
+</html> -->

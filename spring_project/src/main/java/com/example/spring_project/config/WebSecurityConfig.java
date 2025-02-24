@@ -29,6 +29,7 @@ public class WebSecurityConfig {
 	/** メッセージ取得 */
 	private final MessageSource messageSource;
 
+	/** ユーザー名のname属性 */
     private final String USERNAME_PARAMETER = "email";
 
     @Bean
@@ -46,9 +47,7 @@ public class WebSecurityConfig {
                 .logout(logout -> logout
                         .logoutSuccessUrl("/"));
                         
-
 		return http.build();
-
 
     }
 

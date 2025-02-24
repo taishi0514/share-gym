@@ -23,17 +23,17 @@ public class UserDetailsServiceImpl implements UserDetailsService{
                     .orElseThrow(() -> new UsernameNotFoundException(email));
 
 
-        return User.withUsername(userInfo.getEmail())
-                    .password(userInfo.getPassword())
-                    .roles("USER")
-                    .build();
+        // return User.withUsername(userInfo.getEmail())
+        //             .password(userInfo.getPassword())
+        //             .roles("USER")
+        //             .build();
 
-        // UserDetails userDetails = User.withUsername(userInfo.getEmail())
-        //                               .password(userInfo.getPassword())
-        //                               .roles("USER")
-        //                               .build();
+        UserDetails userDetails = User.withUsername(userInfo.getEmail())
+                                      .password(userInfo.getPassword())
+                                      .roles("USER")
+                                      .build();
 
-        // return new UserDetailsImpl(userInfo,userDetails);
+        return new UserDetailsImpl(userInfo,userDetails);
     }
     
     

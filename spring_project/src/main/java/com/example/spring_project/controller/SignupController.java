@@ -21,14 +21,21 @@ import com.example.spring_project.constant.SignupMessage;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * ユーザー登録画面Controllerクラス
+ * 
+ * @author taishi
+ *
+ */
 @Controller
 @RequiredArgsConstructor
 public class SignupController {
 
+	/** ユーザー登録画面Serviceクラス */
 	private final SignupService service;
 
+	/** メッセージソース */
 	private final MessageSource messageSource;
-
 
 	@GetMapping(UrlConst.SIGNUP)
 	public String view(Model model, SignupForm form) {
@@ -43,24 +50,10 @@ public class SignupController {
 	* @param bdResult エラー有無
 	* @return 表示画面
 	*/
-
-	// @PostMapping("/signup")
-	// public void signup(Model model, @Validated SignupForm form, BindingResult bdResult) {
-	// 	if (bdResult.hasErrors()) {
-	// 		editGuideMessage(model, MessageConst.FORM_ERROR, true);
-	// 		return;
-	// 	}
-
-	// 	Optional<UserInfo> userInfoOpt = service.resistUserInfo(form);
-	// 	SignupMessage signupMessage = judgeMessageKey(userInfoOpt);
-	// 	editGuideMessage(model, signupMessage.getMessageId(), signupMessage.isError());
-	// }
-
-	@PostMapping("/signup")
+	@PostMapping(UrlConst.SIGNUP)
 	public String signup(Model model, @Validated SignupForm form, BindingResult bdResult) {
 		if (bdResult.hasErrors()) {
 			editGuideMessage(model, MessageConst.FORM_ERROR, true);
-			// return "signup";
 		}
 
 		Optional<UserInfo> userInfoOpt = service.resistUserInfo(form);
@@ -73,7 +66,6 @@ public class SignupController {
 			model.addAttribute("loginForm", new LoginForm());
 			return "login"; // 成功した場合、ログインページにリダイレクト
 	}
-
 
 	/**
 	 * 画面に表示するガイドメッセージを設定する
@@ -88,7 +80,6 @@ public class SignupController {
 		model.addAttribute("isError", isError);
 	}
 		
-
 	/**
 	 * ユーザ情報登録の結果メッセージキーを判断する
 	 * 
@@ -102,5 +93,4 @@ public class SignupController {
 			return SignupMessage.SUCCEED;
 		}
 	}
-
 }

@@ -19,7 +19,9 @@ async function initMap() {
     map = new Map(document.getElementById("map"), {
         mapId: "246576955a11af50",
         center: { lat: 35.681298, lng: 139.766247 },
-        zoom: 15,
+        // zoom: 15,
+        zoom: 10,
+
     });
 
     loadGymMarkers();
@@ -30,6 +32,8 @@ async function loadGymMarkers(){
 
     const { InfoWindow } = await google.maps.importLibrary("maps");
     const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+
+    let currentInfoWindow = null;
 
     fetch("/api/gyms")
         .then(response => response.json())
@@ -48,18 +52,30 @@ async function loadGymMarkers(){
 
                 const infoWindow = new InfoWindow({
                     content: `
-                        <div>
-                        <h3>${spot.name}</h3>
-                        <p>${spot.address}</p>
+                        <div class="info-window">
+                        <h1 class="info-gym-detail">ジム詳細</h1>
+                        <p class="info-title">${spot.name}</p>
+                        <h2 class="info-address">住所</h2>
+                        <p class="info-address-detail">${spot.address}</p>
+                        <h2 class="info-part">おすすめ部位</h2>
                         </div>
                         `,
                 });
 
                 marker.addListener('click', () => {
+
+                    if (currentInfoWindow) {
+                        currentInfoWindow.close();
+                    }
+
+                    map.panTo(marker.position);
+
                     infoWindow.open({
                         anchor: marker,
                         map,
                     });
+
+                    currentInfoWindow = infoWindow;
                 });
             });
         })

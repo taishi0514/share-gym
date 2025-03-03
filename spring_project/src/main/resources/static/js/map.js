@@ -50,6 +50,10 @@ async function loadGymMarkers(){
                     title: spot.name,
                 });
 
+                const recommendedParts = spot.recommendations.length > 0 
+                    ? spot.recommendations.join("  ") 
+                    : "該当なし";
+
                 const infoWindow = new InfoWindow({
                     content: `
                         <div class="info-window">
@@ -58,6 +62,7 @@ async function loadGymMarkers(){
                         <h2 class="info-address">住所</h2>
                         <p class="info-address-detail">${spot.address}</p>
                         <h2 class="info-part">おすすめ部位</h2>
+                        <p class="info-part-detail">${recommendedParts}</p>
                         </div>
                         `,
                 });

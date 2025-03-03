@@ -17,6 +17,41 @@
         <label for="address">住所:</label>
         <input type="text" id="address" name="address">
         <br>
+        <p class="password">おすすめ部位 </p>
+
+      <div class="checkbox-group">
+        <div class="checkbox-item">
+          <label>
+          <input type="checkbox" id="chest" name="recommendation" value="1"> 胸
+          </label>
+        </div>
+
+        <div class="checkbox-item">
+          <label>
+          <input type="checkbox" id="shoulder" name="recommendation" value="2"> 肩
+          </label>
+        </div>
+
+        <div class="checkbox-item">
+          <label>
+          <input type="checkbox" id="arm" name="recommendation" value="3"> 腕
+          </label>
+        </div>
+
+        <div class="checkbox-item">
+          <label>
+          <input type="checkbox" id="leg" name="recommendation" value="4"> 脚（下半身）
+          </label>
+        </div>
+
+        <div class="checkbox-item">
+          <label>
+            <input type="checkbox" id="back" name="recommendation" value="5"> 背中
+          </label>
+        </div> 
+
+ 		  </div>
+
         <button type="submit">登録</button>
     </form>
 
@@ -25,13 +60,17 @@
     <script>
         document.getElementById("spotForm").addEventListener("submit", function(event) {
             event.preventDefault();
+
+            const selectedCheckBox = Array.from(document.querySelectorAll('input[name="recommendation"]:checked'))
+                              .map(input => parseInt(input.value));
             
             const name = document.getElementById("name").value;
             const address = document.getElementById("address").value;
 
             const requestData = {
                 name: name,
-                address: address
+                address: address,
+                recommendation: selectedCheckBox
             };
 
             fetch("/api/locations", {
@@ -40,25 +79,24 @@
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(requestData)
-            })
-            .then(response => {
-				if (!response.ok) {
-					return response.json().then(err => {
-					throw new Error(err.error || 'エラーが発生しました');
-					});
-				}
-				return response.json();
-				})
-			.then(data => {
-				console.log('Success:', data);
-				window.location.href = '/gyms';
-				document.getElementById("responseMessage").innerText = "登録成功！";
-			})
-			.catch(error => {
-				console.error('Error:', error);
-				document.getElementById("responseMessage").innerText = "エラー: " + error.message;
-			});
-		});
+            }).then(response => {
+                if (!response.ok) {
+                  return response.json().then(err => {
+                  throw new Error(err.error || 'エラーが発生しました');
+                  });
+                }
+                return response.json();
+                })
+              .then(data => {
+                console.log('Success:', data);
+                window.location.href = '/gyms';
+                document.getElementById("responseMessage").innerText = "登録成功！";
+              })
+              .catch(error => {
+                console.error('Error:', error);
+                document.getElementById("responseMessage").innerText = "エラー: " + error.message;
+              });
+            });
     </script>
 	
 </body>

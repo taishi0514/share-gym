@@ -9,8 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.spring_project.authentication.UserDetailsImpl;
 import com.example.spring_project.dto.SpotInfo;
+import com.example.spring_project.entity.Menu;
+import com.example.spring_project.entity.Recommend;
 import com.example.spring_project.entity.Spot;
 import com.example.spring_project.entity.UserInfo;
+import com.example.spring_project.repository.MenuRepository;
+import com.example.spring_project.repository.RecommendRepository;
 import com.example.spring_project.repository.SpotRepository;
 import com.example.spring_project.repository.UserInfoRepository;
 import com.example.spring_project.service.SpotService;
@@ -19,6 +23,9 @@ import com.google.maps.model.LatLng;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,6 +51,12 @@ public class SpotController {
 
     /** スポット情報テーブルDAO */
     private final SpotRepository spotsRepository;
+
+    /** トレーニング部位のマスターテーブルDAO */
+    private final MenuRepository menuRepository;
+
+    /** ジムのおすすめ部位のテーブルDAO */
+    private final RecommendRepository recommendRepository;
    
     /** Dozer Mapper */
 	private final Mapper mapper;
@@ -54,7 +67,6 @@ public class SpotController {
         log.debug("Received request: {}", request);
         try {
             LatLng coordinates = geocodingService.getCoordinates(request.getAddress());
-
 
             
             Spot spot = mapper.map(request, Spot.class);
@@ -71,6 +83,20 @@ public class SpotController {
             spot.setUserInfo(currentUser);
 
             Spot savedLocation = spotsRepository.save(spot);
+
+
+            for (Integer menuId : request.getRecommendation()) {
+                Menu menu = menuRepository.findById(menuId)
+                    .orElseThrow(() -> new RuntimeException("Menu not found with id: " + menuId));
+
+                Recommend recommend = new Recommend();
+                recommend.setSpot(savedLocation);
+                recommend.setMenu(menu);
+
+                recommendRepository.save(recommend);
+            }
+
+            
 
             return ResponseEntity.ok(savedLocation);
 
